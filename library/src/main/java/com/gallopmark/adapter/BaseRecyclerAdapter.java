@@ -1,4 +1,4 @@
-package com.gallopmark.recycler;
+package com.gallopmark.adapter;
 
 import android.content.Context;
 import android.graphics.Typeface;
