@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.gallopmark.swipehelper.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/swipeItemLayout"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/white">
+
+    <LinearLayout
+        android:id="@+id/ll_rowFG"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/white"
+        android:descendantFocusability="blocksDescendants"
+        android:orientation="vertical"
+        app:layout_itemType="main">
+
+        <TextView
+            android:id="@+id/tvTitle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="@dimen/dp_3"
+            android:layout_gravity="center"
+            android:padding="@dimen/dp_20"
+            android:textColor="@color/appTextColor"
+            android:textSize="@dimen/sp_18" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/dp_0_5"
+            android:background="@color/colorPrimary" />
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDelete"
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:background="@color/colorAccent"
+        android:drawablePadding="@dimen/dp_5"
+        android:gravity="center"
+        android:padding="@dimen/dp_20"
+        android:text="@string/delete"
+        android:textColor="@color/white"
+        android:textSize="@dimen/sp_16"
+        app:layout_itemType="menu" />
+
+</com.gallopmark.swipehelper.SwipeItemLayout>

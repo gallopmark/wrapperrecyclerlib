@@ -1,4 +1,4 @@
-package com.gallopmark.adapter;
+package com.gallopmark.adapterhelper;
 
 import android.content.Context;
 import android.graphics.Typeface;

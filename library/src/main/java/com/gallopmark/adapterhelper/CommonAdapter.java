@@ -1,4 +1,4 @@
-package com.gallopmark.adapter;
+package com.gallopmark.adapterhelper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -114,7 +114,7 @@ public abstract class CommonAdapter<T> extends BaseRecyclerAdapter {
 
     @Override
     public void onBindViewHolder(@NonNull RecyclerHolder holder, int position) {
-        onBindHolder(holder, mDatas.get(holder.getAdapterPosition()), position);
+        onBindHolder(holder, mDatas.get(position), position);
     }
 
     public abstract void onBindHolder(RecyclerHolder holder, T t, int position);

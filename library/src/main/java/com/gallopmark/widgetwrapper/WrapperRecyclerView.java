@@ -1,4 +1,4 @@
-package com.gallopmark.wrapper;
+package com.gallopmark.widgetwrapper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;
@@ -11,22 +11,37 @@ import android.view.View;
 import android.view.ViewGroup;
 
 /*实现带header和footer功能的RecyclerView*/
-public class WrapRecyclerView extends RecyclerView {
+public class WrapperRecyclerView extends RecyclerView {
     // 包裹了一层的头部底部Adapter
     private WrapRecyclerAdapter mWrapRecyclerAdapter;
     // 这个是列表数据的Adapter
     private Adapter mAdapter;
+    private SparseArray<View> mHeaderViews;
+    private SparseArray<View> mFooterViews;
 
-    public WrapRecyclerView(Context context) {
+    // 基本的头部类型开始位置  用于viewType
+    private static int BASE_ITEM_TYPE_HEADER = 10000000;
+    // 基本的底部类型开始位置  用于viewType
+    private static int BASE_ITEM_TYPE_FOOTER = 20000000;
+
+    public WrapperRecyclerView(Context context) {
         super(context);
+        initialize();
     }
 
-    public WrapRecyclerView(Context context, @Nullable AttributeSet attrs) {
+    public WrapperRecyclerView(Context context, @Nullable AttributeSet attrs) {
         super(context, attrs);
+        initialize();
     }
 
-    public WrapRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
+    public WrapperRecyclerView(Context context, @Nullable AttributeSet attrs, int defStyle) {
         super(context, attrs, defStyle);
+        initialize();
+    }
+
+    private void initialize() {
+        mHeaderViews = new SparseArray<>();
+        mFooterViews = new SparseArray<>();
     }
 
     @Override
@@ -51,31 +66,43 @@ public class WrapRecyclerView extends RecyclerView {
 
     // 添加头部
     public void addHeaderView(View view) {
-        // 如果没有Adapter那么就不添加，也可以选择抛异常提示
-        // 让他必须先设置Adapter然后才能添加，这里是仿照ListView的处理方式
+        int position = mHeaderViews.indexOfValue(view);
+        if (position < 0) {
+            mHeaderViews.put(BASE_ITEM_TYPE_HEADER++, view);
+        }
         if (mWrapRecyclerAdapter != null) {
-            mWrapRecyclerAdapter.addHeaderView(view);
+            mWrapRecyclerAdapter.notifyDataSetChanged();
         }
     }
 
     // 添加底部
     public void addFooterView(View view) {
+        int position = mFooterViews.indexOfValue(view);
+        if (position < 0) {
+            mFooterViews.put(BASE_ITEM_TYPE_FOOTER++, view);
+        }
         if (mWrapRecyclerAdapter != null) {
-            mWrapRecyclerAdapter.addFooterView(view);
+            mWrapRecyclerAdapter.notifyDataSetChanged();
         }
     }
 
     // 移除头部
     public void removeHeaderView(View view) {
+        int index = mHeaderViews.indexOfValue(view);
+        if (index < 0) return;
+        mHeaderViews.removeAt(index);
         if (mWrapRecyclerAdapter != null) {
-            mWrapRecyclerAdapter.removeHeaderView(view);
+            mWrapRecyclerAdapter.notifyDataSetChanged();
         }
     }
 
     // 移除底部
     public void removeFooterView(View view) {
+        int index = mFooterViews.indexOfValue(view);
+        if (index < 0) return;
+        mFooterViews.removeAt(index);
         if (mWrapRecyclerAdapter != null) {
-            mWrapRecyclerAdapter.removeFooterView(view);
+            mWrapRecyclerAdapter.notifyDataSetChanged();
         }
     }
 
@@ -129,23 +156,7 @@ public class WrapRecyclerView extends RecyclerView {
         }
     };
 
-    public static class WrapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
-        /**
-         * SparseArrays map integers to Objects.  Unlike a normal array of Objects,
-         * there can be gaps in the indices.  It is intended to be more memory efficient
-         * than using a HashMap to map Integers to Objects, both because it avoids
-         * auto-boxing keys and its data structure doesn't rely on an extra entry object
-         * for each mapping.
-         * <p>
-         * SparseArray是一个<int , Object>的HashMap  比HashMap更高效
-         */
-        private SparseArray<View> mHeaderViews;
-        private SparseArray<View> mFooterViews;
-
-        // 基本的头部类型开始位置  用于viewType
-        private static int BASE_ITEM_TYPE_HEADER = 10000000;
-        // 基本的底部类型开始位置  用于viewType
-        private static int BASE_ITEM_TYPE_FOOTER = 20000000;
+    class WrapRecyclerAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         /**
          * 数据列表的Adapter
@@ -154,8 +165,6 @@ public class WrapRecyclerView extends RecyclerView {
 
         WrapRecyclerAdapter(RecyclerView.Adapter adapter) {
             this.mAdapter = adapter;
-            mHeaderViews = new SparseArray<>();
-            mFooterViews = new SparseArray<>();
         }
 
         @NonNull
@@ -242,40 +251,6 @@ public class WrapRecyclerView extends RecyclerView {
         public int getItemCount() {
             // 条数三者相加 = 底部条数 + 头部条数 + Adapter的条数
             return mAdapter.getItemCount() + mHeaderViews.size() + mFooterViews.size();
-        }
-
-        // 添加头部
-        void addHeaderView(View view) {
-            int position = mHeaderViews.indexOfValue(view);
-            if (position < 0) {
-                mHeaderViews.put(BASE_ITEM_TYPE_HEADER++, view);
-            }
-            notifyDataSetChanged();
-        }
-
-        // 添加底部
-        void addFooterView(View view) {
-            int position = mFooterViews.indexOfValue(view);
-            if (position < 0) {
-                mFooterViews.put(BASE_ITEM_TYPE_FOOTER++, view);
-            }
-            notifyDataSetChanged();
-        }
-
-        // 移除头部
-        void removeHeaderView(View view) {
-            int index = mHeaderViews.indexOfValue(view);
-            if (index < 0) return;
-            mHeaderViews.removeAt(index);
-            notifyDataSetChanged();
-        }
-
-        // 移除底部
-        void removeFooterView(View view) {
-            int index = mFooterViews.indexOfValue(view);
-            if (index < 0) return;
-            mFooterViews.removeAt(index);
-            notifyDataSetChanged();
         }
 
         /**
