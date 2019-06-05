@@ -6,7 +6,7 @@
     android:background="@color/colorPrimary"
     android:orientation="vertical">
 
-    <com.gallopmark.widgetwrapper.WrapperRecyclerView
+    <com.gallopmark.wrapperlib.widgetwrapper.WrapperRecyclerView
         android:id="@+id/mRecyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

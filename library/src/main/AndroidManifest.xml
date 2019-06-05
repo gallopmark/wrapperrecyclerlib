@@ -1,6 +1,3 @@
-<manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.gallopmark.adapterhelper">
+<manifest package="com.gallopmark.wrapperlib"/>
 
-    <uses-permission android:name="android.permission.VIBRATE" />
-</manifest>
 

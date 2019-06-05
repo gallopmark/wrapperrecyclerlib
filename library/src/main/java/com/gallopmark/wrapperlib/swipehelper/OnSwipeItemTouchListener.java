@@ -1,4 +1,4 @@
-package com.gallopmark.swipehelper;
+package com.gallopmark.wrapperlib.swipehelper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

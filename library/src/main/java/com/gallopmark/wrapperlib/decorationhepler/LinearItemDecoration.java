@@ -1,4 +1,4 @@
-package com.gallopmark.decorationhepler;
+package com.gallopmark.wrapperlib.decorationhepler;
 
 import android.content.Context;
 import android.content.res.TypedArray;

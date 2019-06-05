@@ -1,4 +1,4 @@
-package com.gallopmark.adapterhelper;
+package com.gallopmark.wrapperlib.adapterhelper;
 
 import android.content.Context;
 import android.support.annotation.NonNull;

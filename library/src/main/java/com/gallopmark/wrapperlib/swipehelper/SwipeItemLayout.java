@@ -1,4 +1,4 @@
-package com.gallopmark.swipehelper;
+package com.gallopmark.wrapperlib.swipehelper;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,7 +12,7 @@ import android.view.ViewGroup;
 import android.view.animation.Interpolator;
 import android.widget.Scroller;
 
-import com.gallopmark.adapterhelper.R;
+import com.gallopmark.wrapperlib.R;
 
 public class SwipeItemLayout extends ViewGroup {
     enum Mode {

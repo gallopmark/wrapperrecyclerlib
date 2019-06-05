@@ -8,11 +8,11 @@ import android.support.v7.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.gallopmark.adapterhelper.CommonAdapter;
-import com.gallopmark.decorationhepler.GridItemDecoration;
-import com.gallopmark.swipehelper.OnSwipeItemTouchListener;
-import com.gallopmark.swipehelper.SwipeItemLayout;
-import com.gallopmark.widgetwrapper.WrapperRecyclerView;
+import com.gallopmark.wrapperlib.adapterhelper.CommonAdapter;
+import com.gallopmark.wrapperlib.decorationhepler.GridItemDecoration;
+import com.gallopmark.wrapperlib.swipehelper.OnSwipeItemTouchListener;
+import com.gallopmark.wrapperlib.swipehelper.SwipeItemLayout;
+import com.gallopmark.wrapperlib.widgetwrapper.WrapperRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;
