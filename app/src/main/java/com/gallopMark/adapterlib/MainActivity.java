@@ -2,17 +2,17 @@ package com.gallopMark.adapterlib;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
-import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.GridLayoutManager;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.GridLayoutManager;
 import android.view.View;
 import android.widget.Toast;
 
-import com.gallopmark.wrapperlib.adapterhelper.CommonAdapter;
-import com.gallopmark.wrapperlib.decorationhepler.GridItemDecoration;
-import com.gallopmark.wrapperlib.swipehelper.OnSwipeItemTouchListener;
-import com.gallopmark.wrapperlib.swipehelper.SwipeItemLayout;
-import com.gallopmark.wrapperlib.widgetwrapper.WrapperRecyclerView;
+import com.gallopmark.recycler.adapterhelper.CommonAdapter;
+import com.gallopmark.recycler.decorationhepler.GridItemDecoration;
+import com.gallopmark.recycler.swipehelper.OnSwipeItemTouchListener;
+import com.gallopmark.recycler.swipehelper.SwipeItemLayout;
+import com.gallopmark.recycler.widgetwrapper.WrapperRecyclerView;
 
 import java.util.ArrayList;
 import java.util.List;

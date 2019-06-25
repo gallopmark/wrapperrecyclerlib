@@ -1,13 +1,19 @@
-package com.gallopmark.wrapperlib.adapterhelper;
+package com.gallopmark.recycler.adapterhelper;
 
 import android.content.Context;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.support.annotation.*;
-import android.support.v4.content.ContextCompat;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
+
+import androidx.annotation.ColorInt;
+import androidx.annotation.ColorRes;
+import androidx.annotation.DrawableRes;
+import androidx.annotation.IdRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+import androidx.recyclerview.widget.GridLayoutManager;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -198,19 +204,19 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
 
         public void setVerticalLayoutManager(@IdRes int id) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-            layoutManager.setOrientation(LinearLayoutManager.VERTICAL);
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
             setLayoutManager(id, layoutManager);
         }
 
         public void setHorizontalLayoutManager(@IdRes int id) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
-            layoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+            layoutManager.setOrientation(RecyclerView.HORIZONTAL);
             setLayoutManager(id, layoutManager);
         }
 
         public void setGridLayoutManager(@IdRes int id, int spanCount) {
             GridLayoutManager layoutManager = new GridLayoutManager(mContext, spanCount);
-            layoutManager.setOrientation(GridLayoutManager.VERTICAL);
+            layoutManager.setOrientation(RecyclerView.VERTICAL);
             setLayoutManager(id, layoutManager);
         }
 

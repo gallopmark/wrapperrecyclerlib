@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.gallopmark.wrapperlib.swipehelper.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.gallopmark.recycler.swipehelper.SwipeItemLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/swipeItemLayout"
     android:layout_width="match_parent"
@@ -44,4 +44,4 @@
         android:textSize="@dimen/sp_16"
         app:layout_itemType="menu" />
 
-</com.gallopmark.wrapperlib.swipehelper.SwipeItemLayout>
+</com.gallopmark.recycler.swipehelper.SwipeItemLayout>

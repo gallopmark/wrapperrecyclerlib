@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name"></string>
+    <string name="app_name">RecyclerWrapper</string>
     <string name="delete">删除</string>
+    <string name="header_content_text">I am header</string>
+    <string name="footer_content_text">I am footer</string>
 </resources>
