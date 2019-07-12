@@ -14,6 +14,7 @@ import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
 import android.util.SparseArray;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,6 +30,7 @@ import android.widget.TextView;
 public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyclerAdapter.RecyclerHolder> {
 
     protected Context mContext;
+    protected LayoutInflater mLayoutInflater;
     private OnItemClickListener onItemClickListener;
     private OnItemLongClickListener onItemLongClickListener;
     private OnItemChildClickListener onItemChildClickListener;
@@ -36,18 +38,11 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
 
     protected BaseRecyclerAdapter(Context context) {
         this.mContext = context;
+        this.mLayoutInflater = LayoutInflater.from(this.mContext);
     }
-
-    protected abstract int bindView(int viewType);
 
     public Object getItem(int position) {
         return null;
-    }
-
-    @NonNull
-    @Override
-    public RecyclerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        return new RecyclerHolder(LayoutInflater.from(mContext).inflate(bindView(viewType), parent, false));
     }
 
     public class RecyclerHolder extends RecyclerView.ViewHolder implements View.OnClickListener, View.OnLongClickListener {
@@ -74,99 +69,140 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
             return (T) view;
         }
 
-        public void bindChildClick(@IdRes int id) {
+        public RecyclerHolder bindChildClick(@IdRes int id) {
             obtainView(id).setOnClickListener(this);
+            return this;
         }
 
         /**
          * 子控件绑定局部点击事件
          */
-        public void bindChildClick(View view) {
+        public RecyclerHolder bindChildClick(View view) {
             view.setOnClickListener(this);
+            return this;
         }
 
-        public void bindChildLongClick(@IdRes int id) {
+        public RecyclerHolder bindChildLongClick(@IdRes int id) {
             obtainView(id).setOnLongClickListener(this);
+            return this;
         }
 
-        public void bindChildLongClick(View view) {
+        public RecyclerHolder bindChildLongClick(View view) {
             view.setOnLongClickListener(this);
+            return this;
         }
 
         /**
          * 文本控件赋值
          */
-        public void setText(@IdRes int id, CharSequence text) {
+        public RecyclerHolder setText(@IdRes int id, CharSequence text) {
             ((TextView) obtainView(id)).setText(text);
+            return this;
         }
 
-        public void setTypeface(@IdRes int id, Typeface tf) {
+        public RecyclerHolder setTypeface(@IdRes int id, Typeface tf) {
             ((TextView) obtainView(id)).setTypeface(tf);
+            return this;
         }
 
-        public void setDrawableLeft(@IdRes int id, @DrawableRes int resId) {
+        public RecyclerHolder setDrawableLeft(@IdRes int id, @DrawableRes int resId) {
             ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(resId, 0, 0, 0);
+            return this;
         }
 
-        public void setDrawableLeft(@IdRes int id, Drawable drawable) {
+        public RecyclerHolder setDrawableLeft(@IdRes int id, @Nullable Drawable drawable) {
             ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(drawable, null, null, null);
+            return this;
         }
 
-        public void setDrawableRight(@IdRes int id, Drawable drawable) {
+        public RecyclerHolder setDrawableTop(@IdRes int id, @DrawableRes int resId) {
+            ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(0, resId, 0, 0);
+            return this;
+        }
+
+        public RecyclerHolder setDrawableTop(@IdRes int id, @Nullable Drawable drawable) {
+            ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(null, drawable, null, null);
+            return this;
+        }
+
+        public RecyclerHolder setDrawableRight(@IdRes int id, @Nullable Drawable drawable) {
             ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(null, null, drawable, null);
+            return this;
         }
 
-        public void setDrawableRight(@IdRes int id, @DrawableRes int resId) {
+        public RecyclerHolder setDrawableRight(@IdRes int id, @DrawableRes int resId) {
             ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(0, 0, resId, 0);
+            return this;
         }
 
-        public void setTextSize(@IdRes int id, float size) {
+        public RecyclerHolder setDrawableBottom(@IdRes int id, @DrawableRes int resId) {
+            ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(0, 0, 0, resId);
+            return this;
+        }
+
+        public RecyclerHolder setDrawableBottom(@IdRes int id, @Nullable Drawable drawable) {
+            ((TextView) obtainView(id)).setCompoundDrawablesWithIntrinsicBounds(null, null, null, drawable);
+            return this;
+        }
+
+        public RecyclerHolder setTextSize(@IdRes int id, float size) {
             ((TextView) obtainView(id)).setTextSize(size);
+            return this;
         }
 
-        public void setTextSize(@IdRes int id, int unit, float size) {
+        public RecyclerHolder setTextSize(@IdRes int id, int unit, float size) {
             ((TextView) obtainView(id)).setTextSize(unit, size);
+            return this;
         }
 
         //可以直接引用 R.color.xxx
-        public void setTextColor(@IdRes int id, @ColorInt int color) {
+        public RecyclerHolder setTextColor(@IdRes int id, @ColorInt int color) {
             ((TextView) obtainView(id)).setTextColor(color);
+            return this;
         }
 
-        public void setTextColorRes(@IdRes int id, @ColorRes int color) {
+        public RecyclerHolder setTextColorRes(@IdRes int id, @ColorRes int color) {
             ((TextView) obtainView(id)).setTextColor(ContextCompat.getColor(mContext, color));
+            return this;
         }
 
-        public void setImageResource(@IdRes int id, @DrawableRes int resId) {
+        public RecyclerHolder setImageResource(@IdRes int id, @DrawableRes int resId) {
             ((ImageView) obtainView(id)).setImageResource(resId);
+            return this;
         }
 
-        public void setVisibility(@IdRes int id, int visibility) {
+        public RecyclerHolder setVisibility(@IdRes int id, int visibility) {
             obtainView(id).setVisibility(visibility);
+            return this;
         }
 
-        public void setVisibility(@IdRes int id, boolean isVisiable) {
-            if (isVisiable) obtainView(id).setVisibility(View.VISIBLE);
+        public RecyclerHolder setVisibility(@IdRes int id, boolean isVisible) {
+            if (isVisible) obtainView(id).setVisibility(View.VISIBLE);
             else obtainView(id).setVisibility(View.GONE);
+            return this;
         }
 
-        public void setInVisibility(@IdRes int id) {
+        public RecyclerHolder setInVisibility(@IdRes int id) {
             obtainView(id).setVisibility(View.INVISIBLE);
+            return this;
         }
 
-        public void setBackgroundColor(@IdRes int id, @ColorInt int color) {
+        public RecyclerHolder setBackgroundColor(@IdRes int id, @ColorInt int color) {
             obtainView(id).setBackgroundColor(color);
+            return this;
         }
 
-        public void setBackgroundColorRes(@IdRes int id, @ColorRes int color) {
+        public RecyclerHolder setBackgroundColorRes(@IdRes int id, @ColorRes int color) {
             obtainView(id).setBackgroundColor(ContextCompat.getColor(mContext, color));
+            return this;
         }
 
-        public void setBackgroundResource(@IdRes int id, @DrawableRes int resId) {
+        public RecyclerHolder setBackgroundResource(@IdRes int id, @DrawableRes int resId) {
             obtainView(id).setBackgroundResource(resId);
+            return this;
         }
 
-        public void setChecked(@IdRes int id, boolean isChecked) {
+        public RecyclerHolder setChecked(@IdRes int id, boolean isChecked) {
             if (obtainView(id) instanceof CheckBox) {
                 ((CheckBox) obtainView(id)).setChecked(isChecked);
             } else if (obtainView(id) instanceof RadioButton) {
@@ -174,63 +210,76 @@ public abstract class BaseRecyclerAdapter extends RecyclerView.Adapter<BaseRecyc
             } else {
                 ((Checkable) obtainView(id)).setChecked(isChecked);
             }
+            return this;
         }
 
-        public void setProgress(@IdRes int id, int progress) {
+        public RecyclerHolder setProgress(@IdRes int id, int progress) {
             ((ProgressBar) obtainView(id)).setProgress(progress);
+            return this;
         }
 
-        public void setProgress(@IdRes int id, int progress, int max) {
+        public RecyclerHolder setProgress(@IdRes int id, int progress, int max) {
             ProgressBar progressBar = obtainView(id);
             progressBar.setProgress(progress);
             progressBar.setMax(max);
+            return this;
         }
 
-        public void setMax(@IdRes int id, int max) {
+        public RecyclerHolder setMax(@IdRes int id, int max) {
             ((ProgressBar) obtainView(id)).setMax(max);
+            return this;
         }
 
-        public void setOnClickListener(@IdRes int id, View.OnClickListener onClickListener) {
+        public RecyclerHolder setOnClickListener(@IdRes int id, View.OnClickListener onClickListener) {
             obtainView(id).setOnClickListener(onClickListener);
+            return this;
         }
 
-        public void setLayoutParams(@IdRes int id, ViewGroup.LayoutParams params) {
+        public RecyclerHolder setLayoutParams(@IdRes int id, ViewGroup.LayoutParams params) {
             obtainView(id).setLayoutParams(params);
+            return this;
         }
 
-        public void setEnabled(@IdRes int id, boolean isEnabled) {
+        public RecyclerHolder setEnabled(@IdRes int id, boolean isEnabled) {
             obtainView(id).setEnabled(isEnabled);
+            return this;
         }
 
-        public void setVerticalLayoutManager(@IdRes int id) {
+        public RecyclerHolder setVerticalLayoutManager(@IdRes int id) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             layoutManager.setOrientation(RecyclerView.VERTICAL);
             setLayoutManager(id, layoutManager);
+            return this;
         }
 
-        public void setHorizontalLayoutManager(@IdRes int id) {
+        public RecyclerHolder setHorizontalLayoutManager(@IdRes int id) {
             LinearLayoutManager layoutManager = new LinearLayoutManager(mContext);
             layoutManager.setOrientation(RecyclerView.HORIZONTAL);
             setLayoutManager(id, layoutManager);
+            return this;
         }
 
-        public void setGridLayoutManager(@IdRes int id, int spanCount) {
+        public RecyclerHolder setGridLayoutManager(@IdRes int id, int spanCount) {
             GridLayoutManager layoutManager = new GridLayoutManager(mContext, spanCount);
             layoutManager.setOrientation(RecyclerView.VERTICAL);
             setLayoutManager(id, layoutManager);
+            return this;
         }
 
-        public void setGridLayoutManager(@IdRes int id, int spanCount, int orientation, boolean reverseLayout) {
+        public RecyclerHolder setGridLayoutManager(@IdRes int id, int spanCount, int orientation, boolean reverseLayout) {
             GridLayoutManager layoutManager = new GridLayoutManager(mContext, spanCount, orientation, reverseLayout);
             setLayoutManager(id, layoutManager);
+            return this;
         }
 
-        public void setLayoutManager(@IdRes int id, @Nullable RecyclerView.LayoutManager layoutManager) {
+        public RecyclerHolder setLayoutManager(@IdRes int id, @Nullable RecyclerView.LayoutManager layoutManager) {
             ((RecyclerView) obtainView(id)).setLayoutManager(layoutManager);
+            return this;
         }
 
-        public void setAdapter(@IdRes int id, @Nullable RecyclerView.Adapter adapter) {
+        public RecyclerHolder setAdapter(@IdRes int id, @Nullable RecyclerView.Adapter adapter) {
             ((RecyclerView) obtainView(id)).setAdapter(adapter);
+            return this;
         }
 
         @Override
