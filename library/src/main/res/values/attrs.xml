@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="listDividerColor">#00000000</color>
     <declare-styleable name="SwipeItemLayout.Layout">
         <attr name="layout_itemType">
             <flag name="main" value="0x01"/>

@@ -6,14 +6,19 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
+
 import androidx.annotation.ColorRes;
+import androidx.annotation.DimenRes;
 import androidx.annotation.DrawableRes;
 import androidx.annotation.NonNull;
 import androidx.core.content.ContextCompat;
 import androidx.recyclerview.widget.GridLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+
 import android.view.View;
+
+import com.gallopmark.recycler.R;
 
 /*GridLayoutManager or StaggeredGridLayoutManager分割线*/
 public class GridItemDecoration extends RecyclerView.ItemDecoration {
@@ -21,10 +26,14 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     private Drawable mDivider;
     private Paint mPaint;
     private int mDividerHeight = 2;
+    private boolean mLastRawDrawTop;
+    private boolean mLastColumnDrawRight;
 
     public GridItemDecoration(Context context) {
         final TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
+        if (mDivider != null)
+            mDividerHeight = mDivider.getIntrinsicHeight();
         a.recycle();
     }
 
@@ -40,12 +49,21 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
     }
 
     /**
+     * @param id dimens values
+     */
+    public GridItemDecoration(Context context, @DimenRes int id, boolean lastRawDrawTop, boolean lastColumnDrawRight) {
+        this(context, context.getResources().getDimensionPixelOffset(id), R.color.listDividerColor, lastRawDrawTop, lastColumnDrawRight);
+    }
+
+    /**
      * 自定义分割线
      *
      * @param dividerHeight 分割线高度
      * @param dividerColor  分割线颜色
      */
-    public GridItemDecoration(Context context, int dividerHeight, @ColorRes int dividerColor) {
+    public GridItemDecoration(Context context, int dividerHeight, @ColorRes int dividerColor, boolean lastRawDrawTop, boolean lastColumnDrawRight) {
+        this.mLastRawDrawTop = lastRawDrawTop;
+        this.mLastColumnDrawRight = lastColumnDrawRight;
         mDividerHeight = dividerHeight;
         mPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
         mPaint.setColor(ContextCompat.getColor(context, dividerColor));
@@ -59,12 +77,20 @@ public class GridItemDecoration extends RecyclerView.ItemDecoration {
         int itemPosition = ((RecyclerView.LayoutParams) view.getLayoutParams()).getViewLayoutPosition();
         int spanCount = getSpanCount(parent);
         int childCount = parent.getAdapter().getItemCount();
-        if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行，则不需要绘制底部
+        if (isLastRaw(parent, itemPosition, spanCount, childCount))// 如果是最后一行
         {
-            outRect.set(0, 0, getDividerHeight(), 0);
-        } else if (isLastColumn(parent, itemPosition, spanCount, childCount))// 如果是最后一列，则不需要绘制右边
+            if (mLastRawDrawTop) {    //最后一行是否绘制顶部
+                outRect.set(0, 0, getDividerHeight(), 0);
+            } else {
+                outRect.set(0, 0, 0, 0);
+            }
+        } else if (isLastColumn(parent, itemPosition, spanCount, childCount))// 如果是最后一列
         {
-            outRect.set(0, 0, 0, getDividerHeight());
+            if (mLastColumnDrawRight) { //最后一列是否绘制右边
+                outRect.set(0, 0, getDividerHeight(), getDividerHeight());
+            } else {
+                outRect.set(0, 0, 0, getDividerHeight());
+            }
         } else {
             outRect.set(0, 0, getDividerHeight(), getDividerHeight());
         }
